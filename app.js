@@ -50,5 +50,9 @@
   document.getElementById('pokaz-mape').addEventListener('click',function(){zgoda='1';try{localStorage.setItem('cc-cookies','1')}catch(e){}ck.hidden=true;wstawMape()});
   if('IntersectionObserver' in window){new IntersectionObserver(function(es){if(es[0].isIntersecting){widoczna=true;moze()}},{rootMargin:'300px'}).observe(mapa)}else{widoczna=true;moze()}
   
+  /* dalsze zdjecia w kartach dopiero po zaladowaniu strony albo przy dotknieciu toru */
+  function dociagnij(){document.querySelectorAll('img[data-src]').forEach(function(i){i.srcset=i.dataset.srcset;i.src=i.dataset.src;i.removeAttribute('data-src');i.removeAttribute('data-srcset')})}
+  addEventListener('load',function(){setTimeout(dociagnij,2500)});
+  document.querySelectorAll('.ftor').forEach(function(f){['pointerdown','touchstart','focusin','mouseenter'].forEach(function(ev){f.addEventListener(ev,dociagnij,{passive:true,once:true})})});
   var r=document.getElementById('rok');if(r)r.textContent=new Date().getFullYear();
 })();
